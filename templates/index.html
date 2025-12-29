@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prédiction de Défaut</title>
+  <style>
+    body{font-family:Arial;margin:0;background:#f4f6f8}
+    .banner{background:#43a047;color:#fff;padding:22px 16px;font-size:30px;font-weight:700}
+    .card{max-width:980px;margin:16px auto;background:#fff;padding:18px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+    h2{text-align:center;margin:6px 0 18px}
+    h3{margin-top:20px}
+    label{font-weight:700;display:block;margin:12px 0 6px}
+    input,select{width:100%;padding:12px;border:1px solid #d0d7de;border-radius:8px}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    @media(min-width:760px){.grid{grid-template-columns:1fr 1fr}}
+    .btn{width:100%;margin-top:18px;background:#43a047;color:#fff;border:0;padding:14px;border-radius:10px;font-size:18px;font-weight:700}
+    .btn:hover{filter:brightness(0.95);cursor:pointer}
+    .small{color:#666;font-size:13px;margin-top:6px;line-height:1.35}
+    .note{background:#f1f8e9;border:1px solid #c5e1a5;padding:10px;border-radius:8px;margin-top:10px}
+  </style>
+</head>
+<body>
+  <div class="banner">Prédiction de Défaut</div>
+
+  <div class="card">
+    <h2>Informations Client</h2>
+
+    <div class="note small">
+      <b>PAY_* :</b> statut de remboursement. <br>
+      <b>-1</b> = paiement à l’échéance. <br>
+      <b>1..8</b> = retard de 1 à 8 mois. <br>
+      <b>Attention :</b> pas de 0. Et pour <b>PAY_5</b> / <b>PAY_6</b>, pas de 1.
+    </div>
+
+    <form method="POST" action="/predict-form">
+      <div class="grid">
+        <div>
+          <label>Âge (AGE)</label>
+          <input type="number" name="AGE" required>
+        </div>
+
+        <div>
+          <label>Limite de crédit (LIMIT_BAL)</label>
+          <input type="number" step="0.01" name="LIMIT_BAL" required>
+        </div>
+
+        <div>
+          <label>Sexe (SEX)</label>
+          <select name="SEX" required>
+            <option value="0">Homme (0)</option>
+            <option value="1">Femme (1)</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Éducation (EDUCATION ∈ {1,3,4})</label>
+          <select name="EDUCATION" required>
+            <option value="1">Supérieur/Université (fusionnés) — 1</option>
+            <option value="3">Lycée — 3</option>
+            <option value="4">Autres — 4</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Statut marital (MARRIAGE)</label>
+          <select name="MARRIAGE" required>
+            <option value="1">Marié(e) — 1</option>
+            <option value="2">Célibataire — 2</option>
+            <option value="3">Autres — 3</option>
+          </select>
+        </div>
+      </div>
+
+      <h3>Historique paiement (PAY_*)</h3>
+      <div class="grid">
+        <div>
+          <label>PAY_0</label>
+          <input type="number" name="PAY_0" min="-1" max="8" required>
+          <div class="small">Valeurs : -1 ou 1–8 (0 interdit)</div>
+        </div>
+        <div>
+          <label>PAY_2</label>
+          <input type="number" name="PAY_2" min="-1" max="8" required>
+          <div class="small">Valeurs : -1 ou 1–8 (0 interdit)</div>
+        </div>
+        <div>
+          <label>PAY_3</label>
+          <input type="number" name="PAY_3" min="-1" max="8" required>
+          <div class="small">Valeurs : -1 ou 1–8 (0 interdit)</div>
+        </div>
+        <div>
+          <label>PAY_4</label>
+          <input type="number" name="PAY_4" min="-1" max="8" required>
+          <div class="small">Valeurs : -1 ou 1–8 (0 interdit)</div>
+        </div>
+        <div>
+          <label>PAY_5</label>
+          <input type="number" name="PAY_5" min="-1" max="8" required>
+          <div class="small">Valeurs : -1 ou 2–8 (0 et 1 interdits)</div>
+        </div>
+        <div>
+          <label>PAY_6</label>
+          <input type="number" name="PAY_6" min="-1" max="8" required>
+          <div class="small">Valeurs : -1 ou 2–8 (0 et 1 interdits)</div>
+        </div>
+      </div>
+
+      <h3>Montants facturés (BILL_AMT*)</h3>
+      <div class="grid">
+        <div><label>BILL_AMT1</label><input type="number" step="0.01" name="BILL_AMT1" required></div>
+        <div><label>BILL_AMT2</label><input type="number" step="0.01" name="BILL_AMT2" required></div>
+        <div><label>BILL_AMT3</label><input type="number" step="0.01" name="BILL_AMT3" required></div>
+        <div><label>BILL_AMT4</label><input type="number" step="0.01" name="BILL_AMT4" required></div>
+        <div><label>BILL_AMT5</label><input type="number" step="0.01" name="BILL_AMT5" required></div>
+        <div><label>BILL_AMT6</label><input type="number" step="0.01" name="BILL_AMT6" required></div>
+      </div>
+
+      <h3>Montants payés (PAY_AMT*)</h3>
+      <div class="grid">
+        <div><label>PAY_AMT1</label><input type="number" step="0.01" name="PAY_AMT1" required></div>
+        <div><label>PAY_AMT2</label><input type="number" step="0.01" name="PAY_AMT2" required></div>
+        <div><label>PAY_AMT3</label><input type="number" step="0.01" name="PAY_AMT3" required></div>
+        <div><label>PAY_AMT4</label><input type="number" step="0.01" name="PAY_AMT4" required></div>
+        <div><label>PAY_AMT5</label><input type="number" step="0.01" name="PAY_AMT5" required></div>
+        <div><label>PAY_AMT6</label><input type="number" step="0.01" name="PAY_AMT6" required></div>
+      </div>
+
+      <button class="btn" type="submit">Faire une Prédiction</button>
+    </form>
+  </div>
+</body>
+</html>

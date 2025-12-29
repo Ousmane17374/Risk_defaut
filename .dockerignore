@@ -1,0 +1,43 @@
+# ======================
+# Python cache
+# ======================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ======================
+# Environnements locaux
+# ======================
+env/
+venv/
+.venv/
+
+# ======================
+# Tests & outils dev
+# ======================
+tests/
+.pytest_cache/
+.idea/
+.vscode/
+
+# ======================
+# Jupyter & data
+# ======================
+.ipynb_checkpoints/
+*.ipynb
+*.csv
+*.xlsx
+*.parquet
+
+# ======================
+# Git
+# ======================
+.git/
+.gitignore
+
+# ======================
+# OS
+# ======================
+.DS_Store
+Thumbs.db
