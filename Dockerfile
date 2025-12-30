@@ -22,4 +22,4 @@ COPY . .
 # pour des environnements avec plusieurs coeurs CPU. augmenter le nombre de workers en conséquence.
 # pour qu'il soit egal au nombre de coeurs disponibles. 
 # le timeaout est reglé sur 0 pour désactiver les timeouts des workers pour permettre à Cloude Run de gérer les timeouts.
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 App:app
