@@ -1,4 +1,4 @@
-from pydantic import BaseModel # Utiliser pour la validation des données
+#from pydantic import BaseModel # Utiliser pour la validation des données
 import numpy as np
 import pandas as pd
 import joblib # utiliser pour charger le modèle sauvegarder
@@ -6,8 +6,9 @@ from flask import Flask, request, jsonify # Flask est un micro-FrameWork
 
 app = Flask(__name__)
 
-MODEL_PATH = "model/credit_default_pipe.pkl"
+MODEL_PATH = "modele/logistic_regression_model.pkl"
 pipe = joblib.load(MODEL_PATH)
+
 
 # Colonnes attendues par ton modèle (d'après ton df.info)
 FEATURES_NUM = [
