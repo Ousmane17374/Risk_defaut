@@ -1,8 +1,8 @@
-from pydantic import BaseModel # Utiliser pour la validation des données
+#from pydantic import BaseModel # Utiliser pour la validation des données
 import numpy as np
 import pandas as pd
 import joblib # utiliser pour charger le modèle sauvegarder
-from flask import Flask, request, jsonify # Flask est un micro-FrameWork
+from flask import Flask, request, jsonify, render_template # Flask est un micro-FrameWork
 
 app = Flask(__name__)
 
